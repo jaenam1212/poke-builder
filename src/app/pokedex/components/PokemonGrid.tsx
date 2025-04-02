@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { PokemonListItem } from '@/lib/pokemon-api';
+import { PokemonListItem } from '@/types/pokemon';
 import { useState } from 'react';
 
 interface PokemonGridProps {

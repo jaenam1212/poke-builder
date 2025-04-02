@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/app/pokedex/page.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1743561856969,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1743561856969,
+            "name": "Commit-0",
+            "content": "import Link from 'next/link';\nimport PokemonGrid from '@/app/pokedex/components/PokemonGrid';\n// app/pokedex/page.tsx\nimport { getAllPokemon } from '@/services/api/pokemon-api';\n\nexport default async function PokedexPage() {\n  const pokemonList = await getAllPokemon(151); // 첫 151마리 포켓몬 (1세대)\n  \n  return (\n    <div className=\"container mx-auto px-4 py-8\">\n      <div className=\"flex justify-between items-center mb-8\">\n        <h1 className=\"text-3xl font-bold\">포켓몬 도감</h1>\n        <Link \n          href=\"/team-builder\" \n          className=\"bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded\"\n        >\n          팀 빌더로 이동\n        </Link>\n      </div>\n      \n      <PokemonGrid pokemonList={pokemonList} />\n    </div>\n  );\n}"
+        }
+    ]
+}

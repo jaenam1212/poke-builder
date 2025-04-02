@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/components/shared/PokemonSelector.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1743561818059,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1743561818059,
+            "name": "Commit-0",
+            "content": "// app/team-builder/components/PokemonSelector.tsx\n'use client';\n\nimport { useMemo, useState } from 'react';\n\nimport { PokemonListItem } from '@/types/pokemon';\n\ninterface PokemonSelectorProps {\n  pokemonList: PokemonListItem[];\n  onSelect: (pokemon: PokemonListItem) => void;\n  disabled?: boolean;\n}\n\nexport default function PokemonSelector({ \n  pokemonList, \n  onSelect,\n  disabled = false \n}: PokemonSelectorProps) {\n  const [searchTerm, setSearchTerm] = useState('');\n  \n  // 포켓몬 ID 추출 함수\n  const getPokemonId = (url: string) => {\n    const parts = url.split('/');\n    return parts[parts.length - 2];\n  };\n  \n  // 검색어에 따라 필터링된 포켓몬 목록\n  const filteredPokemon = useMemo(() => {\n    return pokemonList.filter(pokemon => \n      pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())\n    );\n  }, [pokemonList, searchTerm]);\n  \n  return (\n    <div>\n      <div className=\"mb-4\">\n        <input\n          type=\"text\"\n          placeholder=\"포켓몬 이름 검색...\"\n          className=\"w-full p-3 border border-gray-300 rounded shadow-sm\"\n          value={searchTerm}\n          onChange={(e) => setSearchTerm(e.target.value)}\n        />\n      </div>\n      \n      <div className=\"bg-white rounded-lg shadow border overflow-hidden\">\n        <div className=\"max-h-96 overflow-y-auto\">\n          {filteredPokemon.length > 0 ? (\n            filteredPokemon.map((pokemon) => {\n              const id = getPokemonId(pokemon.url);\n              \n              return (\n                <div \n                  key={pokemon.name}\n                  className=\"flex items-center p-3 border-b hover:bg-gray-50 cursor-pointer\"\n                  onClick={() => !disabled && onSelect(pokemon)}\n                >\n                  <img \n                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`}\n                    alt={pokemon.name}\n                    className=\"w-12 h-12 mr-4\"\n                  />\n                  <div>\n                    <p className=\"text-gray-500 text-sm\">#{id}</p>\n                    <h3 className=\"font-medium capitalize\">{pokemon.name}</h3>\n                  </div>\n                </div>\n              );\n            })\n          ) : (\n            <div className=\"p-4 text-center text-gray-500\">\n              검색 결과가 없습니다\n            </div>\n          )}\n        </div>\n      </div>\n      \n      {disabled && (\n        <p className=\"mt-2 text-red-500 text-sm\">\n          최대 6마리까지만 선택할 수 있습니다\n        </p>\n      )}\n    </div>\n  );\n}"
+        }
+    ]
+}

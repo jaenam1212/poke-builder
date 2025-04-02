@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/components/shared/TeamDisplay.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1743561824683,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1743561829959,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n 'use client';\n \n import Image from 'next/image';\n import { Pokemon } from '@/types/pokemon';\n-import PokemonTypeChips from '@/app/pokedex/[id]/components/PokemonTypeChips';\n+import PokemonTypeChips from '@/components/shared/PokemonTypeChips';\n \n interface TeamDisplayProps {\n   team: Pokemon[];\n   onRemove: (id: number) => void;\n"
+                }
+            ],
+            "date": 1743561824683,
+            "name": "Commit-0",
+            "content": "// app/team-builder/components/TeamDisplay.tsx\n'use client';\n\nimport Image from 'next/image';\nimport { Pokemon } from '@/types/pokemon';\nimport PokemonTypeChips from '@/app/pokedex/[id]/components/PokemonTypeChips';\n\ninterface TeamDisplayProps {\n  team: Pokemon[];\n  onRemove: (id: number) => void;\n}\n\nexport default function TeamDisplay({ team, onRemove }: TeamDisplayProps) {\n  // 빈 슬롯 계산\n  const emptySlots = 6 - team.length;\n  \n  return (\n    <div className=\"bg-white rounded-lg shadow border p-4\">\n      {team.length === 0 ? (\n        <div className=\"text-center py-8 text-gray-500\">\n          <p>포켓몬을 선택하여 팀을 구성하세요</p>\n          <p className=\"text-sm mt-2\">추천을 받으려면 2-3마리를 먼저 선택하세요</p>\n        </div>\n      ) : (\n        <div className=\"grid grid-cols-2 md:grid-cols-3 gap-4\">\n          {team.map((pokemon) => (\n            <div key={pokemon.id} className=\"bg-gray-50 rounded p-3 relative\">\n              <button\n                onClick={() => onRemove(pokemon.id)}\n                className=\"absolute top-1 right-1 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center\"\n                aria-label=\"Remove Pokemon\"\n              >\n                ×\n              </button>\n              \n              <div className=\"flex flex-col items-center\">\n                <Image\n                  src={pokemon.sprites.other['official-artwork'].front_default}\n                  alt={pokemon.name}\n                  width={96}\n                  height={96}\n                  className=\"object-contain\"\n                />\n                <h3 className=\"font-medium capitalize text-center mt-2\">\n                  {pokemon.name}\n                </h3>\n                <div className=\"mt-2\">\n                  <PokemonTypeChips types={pokemon.types.map(t => t.type.name)} />\n                </div>\n              </div>\n            </div>\n          ))}\n          \n          {/* 빈 슬롯 표시 */}\n          {Array.from({ length: emptySlots }).map((_, index) => (\n            <div \n              key={`empty-${index}`} \n              className=\"bg-gray-100 rounded p-3 flex items-center justify-center border-2 border-dashed border-gray-300\"\n            >\n              <span className=\"text-gray-400\">빈 슬롯</span>\n            </div>\n          ))}\n        </div>\n      )}\n    </div>\n  );\n}"
+        }
+    ]
+}

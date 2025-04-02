@@ -1,12 +1,13 @@
 // app/team-builder/components/TeamBuilder.tsx
 'use client';
 
-import { Pokemon, PokemonListItem, getPokemonDetails } from '@/lib/pokemon-api';
+import { Pokemon, PokemonListItem } from '@/types/pokemon';
 import { useEffect, useState } from 'react';
 
 import PokemonSelector from './PokemonSelector';
 import RecommendationPanel from './RecommendationPanel';
 import TeamDisplay from './TeamDisplay';
+import { getPokemonDetails } from '@/lib/pokemon-api';
 
 interface TeamBuilderProps {
   pokemonList: PokemonListItem[];
@@ -22,8 +23,13 @@ export default function TeamBuilder({
   
   // 초기 포켓몬이 제공되면 팀에 추가
   useEffect(() => {
-    if (initialPokemon && !selectedPokemon.find(p => p.id === initialPokemon.id)) {
-      setSelectedPokemon(prev => [...prev, initialPokemon]);
+    if (initialPokemon) {
+      setSelectedPokemon(prev => {
+        if (!prev.find(p => p.id === initialPokemon.id)) {
+          return [...prev, initialPokemon];
+        }
+        return prev;
+      });
     }
   }, [initialPokemon]);
   
@@ -64,14 +70,6 @@ export default function TeamBuilder({
           team={selectedPokemon} 
           onRemove={removePokemon} 
         />
-        
-        {canRequestRecommendations && (
-          <button
-            className="mt-4 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded w-full"
-          >
-            팀 추천 받기
-          </button>
-        )}
       </div>
       
       <div>
@@ -83,7 +81,7 @@ export default function TeamBuilder({
         />
       </div>
       
-      {/* 추천 패널 (구현 예정) */}
+      {/* 추천 패널 */}
       {canRequestRecommendations && (
         <div className="col-span-1 md:col-span-2 mt-6">
           <RecommendationPanel 

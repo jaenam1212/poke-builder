@@ -1,11 +1,12 @@
 // app/team-builder/components/RecommendationPanel.tsx
 'use client';
 
-import { Pokemon, getPokemonDetails } from '@/lib/pokemon-api';
+import { useEffect, useState } from 'react';
 
-import PokemonTypeChips from '@/app/pokedex/[id]/components/PokemonTypeChips';
+import { Pokemon } from '@/types/pokemon';
+import PokemonTypeChips from '@/components/shared/PokemonTypeChips';
+import { getPokemonDetails } from '@/lib/pokemon-api';
 import { supabase } from '@/lib/supabase';
-import { useState } from 'react';
 
 interface RecommendationPanelProps {
   selectedPokemon: Pokemon[];
@@ -22,6 +23,12 @@ export default function RecommendationPanel({
   const [recommendations, setRecommendations] = useState<RecommendedPokemon[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  useEffect(() => {
+    if (selectedPokemon.length >= 2 && selectedPokemon.length <= 3) {
+      requestRecommendations();
+    }
+  }, [selectedPokemon]);
   
   // 팀 추천 요청
   const requestRecommendations = async () => {

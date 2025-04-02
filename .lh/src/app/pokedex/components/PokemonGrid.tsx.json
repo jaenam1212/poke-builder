@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/app/pokedex/components/PokemonGrid.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1743561865338,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1743561865338,
+            "name": "Commit-0",
+            "content": "// app/pokedex/components/PokemonGrid.tsx\n'use client';\n\nimport Link from 'next/link';\nimport { PokemonListItem } from '@/types/pokemon';\nimport { useState } from 'react';\n\ninterface PokemonGridProps {\n  pokemonList: PokemonListItem[];\n}\n\nexport default function PokemonGrid({ pokemonList }: PokemonGridProps) {\n  const [searchTerm, setSearchTerm] = useState('');\n  \n  // 포켓몬 ID 추출 함수\n  const getPokemonId = (url: string) => {\n    const parts = url.split('/');\n    return parts[parts.length - 2];\n  };\n  \n  // 포켓몬 이름 포맷팅\n  const formatPokemonName = (name: string) => {\n    return name.charAt(0).toUpperCase() + name.slice(1);\n  };\n  \n  // 필터링된 포켓몬 목록\n  const filteredPokemon = pokemonList.filter(pokemon =>\n    pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())\n  );\n  \n  return (\n    <div>\n      <div className=\"mb-6\">\n        <input\n          type=\"text\"\n          placeholder=\"포켓몬 이름 검색...\"\n          className=\"w-full p-3 border border-gray-300 rounded shadow-sm\"\n          value={searchTerm}\n          onChange={(e) => setSearchTerm(e.target.value)}\n        />\n      </div>\n      \n      <div className=\"grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4\">\n        {filteredPokemon.map((pokemon) => {\n          const id = getPokemonId(pokemon.url);\n          \n          return (\n            <Link \n              href={`/pokedex/${id}`} \n              key={pokemon.name}\n              className=\"bg-white p-4 rounded shadow hover:shadow-lg transition-shadow\"\n            >\n              <div className=\"flex flex-col items-center\">\n                <img \n                  src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}\n                  alt={pokemon.name}\n                  className=\"w-32 h-32 object-contain\"\n                />\n                <div className=\"mt-2 text-center\">\n                  <p className=\"font-bold\">#{id}</p>\n                  <h2 className=\"text-lg\">{formatPokemonName(pokemon.name)}</h2>\n                </div>\n              </div>\n            </Link>\n          );\n        })}\n      </div>\n    </div>\n  );\n}"
+        }
+    ]
+}

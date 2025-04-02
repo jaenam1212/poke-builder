@@ -3,7 +3,7 @@
 
 import { useMemo, useState } from 'react';
 
-import { PokemonListItem } from '@/lib/pokemon-api';
+import { PokemonListItem } from '@/types/pokemon';
 
 interface PokemonSelectorProps {
   pokemonList: PokemonListItem[];

@@ -2,8 +2,8 @@
 'use client';
 
 import Image from 'next/image';
-import { Pokemon } from '@/lib/pokemon-api';
-import PokemonTypeChips from '@/app/pokedex/[id]/components/PokemonTypeChips';
+import { Pokemon } from '@/types/pokemon';
+import PokemonTypeChips from '@/components/shared/PokemonTypeChips';
 
 interface TeamDisplayProps {
   team: Pokemon[];

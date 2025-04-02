@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import PokemonGrid from '@/app/pokedex/components/PokemonGrid';
 // app/pokedex/page.tsx
-import { getAllPokemon } from '@/lib/pokemon-api';
+import { getAllPokemon } from '@/services/api/pokemon-api';
 
 export default async function PokedexPage() {
   const pokemonList = await getAllPokemon(151); // 첫 151마리 포켓몬 (1세대)

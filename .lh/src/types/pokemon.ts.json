@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/types/pokemon.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1743561683420,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1743561683420,
+            "name": "Commit-0",
+            "content": "// 포켓몬 타입 정의\nexport interface Pokemon {\n  id: number;\n  name: string;\n  types: {\n    type: {\n      name: string;\n    };\n  }[];\n  sprites: {\n    other: {\n      'official-artwork': {\n        front_default: string;\n      };\n    };\n  };\n  stats: {\n    base_stat: number;\n    stat: {\n      name: string;\n    };\n  }[];\n  abilities: {\n    ability: {\n      name: string;\n    };\n    is_hidden: boolean;\n  }[];\n}\n\n// 포켓몬 리스트 아이템 타입\nexport interface PokemonListItem {\n  name: string;\n  url: string;\n}\n\n// 포켓몬 리스트 응답 타입\nexport interface PokemonListResponse {\n  count: number;\n  next: string | null;\n  previous: string | null;\n  results: PokemonListItem[];\n}\n\n// 팀 분석 관련 타입\nexport interface TeamAnalysis {\n  typeCount: Record<string, number>;\n  avgStats: Record<string, number>;\n  weaknesses: Record<string, number>;\n  resistances: Record<string, number>;\n}\n\nexport type PokemonType = string;\n\nexport interface TypeEffectiveness {\n  [key: string]: number;\n} "
+        }
+    ]
+}

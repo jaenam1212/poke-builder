@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/services/api/client.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1743561401849,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1743561612420,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,29 @@\n+import { BaseResponse } from \"@/types\"\n+\n+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || \"http://localhost:3000/api\"\n+\n+export class ApiError extends Error {\n+  constructor(public status: number, message: string) {\n+    super(message)\n+    this.name = \"ApiError\"\n+  }\n+}\n+\n+export async function apiClient<T>(\n+  endpoint: string,\n+  options: RequestInit = {}\n+): Promise<BaseResponse<T>> {\n+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {\n+    ...options,\n+    headers: {\n+      \"Content-Type\": \"application/json\",\n+      ...options.headers,\n+    },\n+  })\n+\n+  if (!response.ok) {\n+    throw new ApiError(response.status, \"API 요청 실패\")\n+  }\n+\n+  return response.json()\n+} \n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1743561401849,
+            "name": "Commit-0",
+            "content": "import { BaseResponse } from \"@/types\"\n\nconst API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || \"http://localhost:3000/api\"\n\nexport class ApiError extends Error {\n  constructor(public status: number, message: string) {\n    super(message)\n    this.name = \"ApiError\"\n  }\n}\n\nexport async function apiClient<T>(\n  endpoint: string,\n  options: RequestInit = {}\n): Promise<BaseResponse<T>> {\n  const response = await fetch(`${API_BASE_URL}${endpoint}`, {\n    ...options,\n    headers: {\n      \"Content-Type\": \"application/json\",\n      ...options.headers,\n    },\n  })\n\n  if (!response.ok) {\n    throw new ApiError(response.status, \"API 요청 실패\")\n  }\n\n  return response.json()\n} "
+        }
+    ]
+}

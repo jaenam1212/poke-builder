@@ -1,6 +1,5 @@
 import { getAllPokemon, getPokemonDetails } from '@/lib/pokemon-api';
 
-// app/api/recommend-pokemon/route.ts
 import { NextResponse } from 'next/server';
 
 type PokemonType = string;
@@ -15,6 +14,27 @@ interface PokemonInput {
 
 interface TypeEffectiveness {
   [key: string]: number;
+}
+
+interface PokemonStat {
+  stat: {
+    name: string;
+  };
+  base_stat: number;
+}
+
+interface PokemonDetail {
+  id: number;
+  name: string;
+  types: { type: { name: string } }[];
+  stats: PokemonStat[];
+}
+
+interface TeamAnalysis {
+  typeCount: Record<string, number>;
+  avgStats: Record<string, number>;
+  weaknesses: Record<string, number>;
+  resistances: Record<string, number>;
 }
 
 // 타입 효과 관계 (매우 간소화된 버전)
@@ -151,9 +171,9 @@ function analyzeTeam(pokemon: PokemonInput[]) {
 }
 
 // 호환성 점수 계산 함수
-function calculateCompatibilityScore(pokemon: any, teamAnalysis: any) {
+function calculateCompatibilityScore(pokemon: PokemonDetail, teamAnalysis: TeamAnalysis) {
   let score = 0;
-  const pokemonTypes = pokemon.types.map((t: any) => t.type.name);
+  const pokemonTypes = pokemon.types.map(t => t.type.name);
   
   // 1. 타입 다양성 점수 (팀에 없는 타입)
   pokemonTypes.forEach((type: string) => {
@@ -175,10 +195,10 @@ function calculateCompatibilityScore(pokemon: any, teamAnalysis: any) {
   
   // 3. 스탯 밸런스 점수
   const lowStats = Object.entries(teamAnalysis.avgStats)
-    .filter(([_, value]) => (value as number) < 70) // 낮은 스탯 기준
+    .filter(([, value]) => (value as number) < 70) // 낮은 스탯 기준
     .map(([stat]) => stat);
   
-  pokemon.stats.forEach((stat: any) => {
+  pokemon.stats.forEach((stat: PokemonStat) => {
     if (lowStats.includes(stat.stat.name) && stat.base_stat > 80) {
       score += 5; // 팀의 약점을 보완하는 높은 스탯
     }
@@ -191,9 +211,9 @@ function calculateCompatibilityScore(pokemon: any, teamAnalysis: any) {
 }
 
 // 추천 이유 생성 함수
-function generateRecommendationReasons(pokemon: any, teamAnalysis: any) {
+function generateRecommendationReasons(pokemon: PokemonDetail, teamAnalysis: TeamAnalysis) {
   const reasons = [];
-  const pokemonTypes = pokemon.types.map((t: any) => t.type.name);
+  const pokemonTypes = pokemon.types.map(t => t.type.name);
   
   // 타입 다양성 이유
 const newTypes: PokemonType[] = pokemonTypes.filter((type: PokemonType) => !teamAnalysis.typeCount[type]);
@@ -216,12 +236,12 @@ const newTypes: PokemonType[] = pokemonTypes.filter((type: PokemonType) => !team
   
   // 스탯 보완 이유
   const lowStats = Object.entries(teamAnalysis.avgStats)
-    .filter(([_, value]) => (value as number) < 70)
+    .filter(([, value]) => (value as number) < 70)
     .map(([stat]) => stat);
   
   const highStats = pokemon.stats
-    .filter((stat: any) => lowStats.includes(stat.stat.name) && stat.base_stat > 80)
-    .map((stat: any) => {
+    .filter((stat: PokemonStat) => lowStats.includes(stat.stat.name) && stat.base_stat > 80)
+    .map((stat: PokemonStat) => {
       const statName = stat.stat.name === 'hp' ? 'HP' :
         stat.stat.name === 'special-attack' ? '특수공격' :
         stat.stat.name === 'special-defense' ? '특수방어' :

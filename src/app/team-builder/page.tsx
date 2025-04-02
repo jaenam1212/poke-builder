@@ -1,7 +1,7 @@
 // app/team-builder/page.tsx
 import { getAllPokemon, getPokemonDetails } from '@/lib/pokemon-api';
 
-import TeamBuilder from './components/TeamBuilder';
+import TeamBuilder from '@/components/shared/TeamBuilder';
 
 export default async function TeamBuilderPage({ 
   searchParams 

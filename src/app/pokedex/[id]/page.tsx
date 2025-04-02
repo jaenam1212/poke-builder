@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import PokemonStats from './components/PokemonStats';
-import PokemonTypeChips from './components/PokemonTypeChips';
+import PokemonStats from '@/components/shared/PokemonStats';
+import PokemonTypeChips from '@/components/shared/PokemonTypeChips';
+import { getPokemonDetails } from '@/services/api/pokemon-api';
 // app/pokedex/[id]/page.tsx
-import { getPokemonDetails } from '@/lib/pokemon-api';
 
 export default async function PokemonDetailPage({ params }: { params: { id: string } }) {
   const pokemon = await getPokemonDetails(params.id);

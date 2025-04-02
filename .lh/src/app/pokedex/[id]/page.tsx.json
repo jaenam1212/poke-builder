@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/app/pokedex/[id]/page.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1743561871519,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1743561876612,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import Link from 'next/link';\n-import PokemonStats from './components/PokemonStats';\n-import PokemonTypeChips from './components/PokemonTypeChips';\n+import PokemonStats from '@/components/shared/PokemonStats';\n+import PokemonTypeChips from '@/components/shared/PokemonTypeChips';\n+import { getPokemonDetails } from '@/services/api/pokemon-api';\n // app/pokedex/[id]/page.tsx\n-import { getPokemonDetails } from '@/services/api/pokemon-api';\n \n export default async function PokemonDetailPage({ params }: { params: { id: string } }) {\n   const pokemon = await getPokemonDetails(params.id);\n   \n"
+                }
+            ],
+            "date": 1743561871519,
+            "name": "Commit-0",
+            "content": "import Link from 'next/link';\nimport PokemonStats from './components/PokemonStats';\nimport PokemonTypeChips from './components/PokemonTypeChips';\n// app/pokedex/[id]/page.tsx\nimport { getPokemonDetails } from '@/services/api/pokemon-api';\n\nexport default async function PokemonDetailPage({ params }: { params: { id: string } }) {\n  const pokemon = await getPokemonDetails(params.id);\n  \n  return (\n    <div className=\"container mx-auto px-4 py-8\">\n      <div className=\"mb-6\">\n        <Link href=\"/pokedex\" className=\"text-blue-600 hover:underline\">\n          &larr; 도감으로 돌아가기\n        </Link>\n      </div>\n      \n      <div className=\"bg-white rounded-lg shadow-lg overflow-hidden\">\n        <div className=\"p-6 md:p-8 flex flex-col md:flex-row\">\n          <div className=\"flex-shrink-0 flex justify-center md:w-1/3\">\n            <img\n              src={pokemon.sprites.other['official-artwork'].front_default}\n              alt={pokemon.name}\n              className=\"w-64 h-64 object-contain\"\n            />\n          </div>\n          \n          <div className=\"mt-6 md:mt-0 md:ml-8 flex-grow\">\n            <div className=\"flex items-baseline\">\n              <h1 className=\"text-3xl font-bold capitalize\">\n                {pokemon.name}\n              </h1>\n              <p className=\"ml-4 text-gray-500 text-xl\">\n                #{pokemon.id.toString().padStart(3, '0')}\n              </p>\n            </div>\n            \n            <div className=\"mt-4\">\n              <h2 className=\"text-lg font-semibold mb-2\">타입</h2>\n              <PokemonTypeChips types={pokemon.types.map(t => t.type.name)} />\n            </div>\n            \n            <div className=\"mt-6\">\n              <h2 className=\"text-lg font-semibold mb-2\">특성</h2>\n              <div className=\"flex flex-wrap gap-2\">\n                {pokemon.abilities.map((ability) => (\n                  <span \n                    key={ability.ability.name}\n                    className=\"px-3 py-1 bg-gray-200 rounded-full text-sm capitalize\"\n                  >\n                    {ability.ability.name.replace('-', ' ')}\n                    {ability.is_hidden && <span className=\"ml-1 text-gray-500\">(숨겨진 특성)</span>}\n                  </span>\n                ))}\n              </div>\n            </div>\n            \n            <div className=\"mt-6\">\n              <h2 className=\"text-lg font-semibold mb-2\">능력치</h2>\n              <PokemonStats stats={pokemon.stats} />\n            </div>\n            \n            <div className=\"mt-8\">\n              <Link\n                href={`/team-builder?add=${pokemon.id}`}\n                className=\"bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded inline-block\"\n              >\n                팀에 추가하기\n              </Link>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n}"
+        }
+    ]
+}
