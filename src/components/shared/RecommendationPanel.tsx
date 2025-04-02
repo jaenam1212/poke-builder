@@ -1,8 +1,9 @@
 // app/team-builder/components/RecommendationPanel.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
+import Image from 'next/image';
 import { Pokemon } from '@/types/pokemon';
 import PokemonTypeChips from '@/components/shared/PokemonTypeChips';
 import { getPokemonDetails } from '@/lib/pokemon-api';
@@ -17,6 +18,11 @@ interface RecommendedPokemon {
   reasons: string[];
 }
 
+interface RecommendationResponse {
+  id: number;
+  reasons: string[];
+}
+
 export default function RecommendationPanel({ 
   selectedPokemon 
 }: RecommendationPanelProps) {
@@ -24,19 +30,11 @@ export default function RecommendationPanel({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
-  useEffect(() => {
-    if (selectedPokemon.length >= 2 && selectedPokemon.length <= 3) {
-      requestRecommendations();
-    }
-  }, [selectedPokemon]);
-  
-  // 팀 추천 요청
-  const requestRecommendations = async () => {
+  const requestRecommendations = useCallback(async () => {
     setLoading(true);
     setError(null);
     
     try {
-      // API 엔드포인트 호출
       const response = await fetch('/api/recommend-pokemon', {
         method: 'POST',
         headers: {
@@ -62,9 +60,8 @@ export default function RecommendationPanel({
       
       const data = await response.json();
       
-      // 추천 포켓몬 상세 정보 가져오기
       const recommendedPokemonDetails = await Promise.all(
-        data.recommendations.map(async (rec: any) => {
+        data.recommendations.map(async (rec: RecommendationResponse) => {
           const pokemon = await getPokemonDetails(rec.id);
           return {
             pokemon,
@@ -74,13 +71,19 @@ export default function RecommendationPanel({
       );
       
       setRecommendations(recommendedPokemonDetails);
-    } catch (error: any) {
+    } catch (error: Error | unknown) {
       console.error('Error fetching recommendations:', error);
-      setError(error.message || '추천을 받는 중 오류가 발생했습니다');
+      setError(error instanceof Error ? error.message : '추천을 받는 중 오류가 발생했습니다');
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedPokemon]);
+
+  useEffect(() => {
+    if (selectedPokemon.length >= 2 && selectedPokemon.length <= 3) {
+      requestRecommendations();
+    }
+  }, [selectedPokemon, requestRecommendations]);
   
   // 팀 저장 함수
   const saveTeam = async (recommendedPokemon: Pokemon[]) => {
@@ -185,9 +188,11 @@ export default function RecommendationPanel({
         {recommendations.slice(0, 3).map(({ pokemon, reasons }) => (
           <div key={pokemon.id} className="bg-gray-50 rounded-lg p-4">
             <div className="flex flex-col items-center mb-4">
-              <img
+              <Image
                 src={pokemon.sprites.other['official-artwork'].front_default}
                 alt={pokemon.name}
+                width={128}
+                height={128}
                 className="w-32 h-32 object-contain"
               />
               <h3 className="font-semibold capitalize text-lg mt-2">

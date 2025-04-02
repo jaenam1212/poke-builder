@@ -3,11 +3,19 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1743561818059,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1743562739250,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,8 +2,9 @@\n 'use client';\n \n import { useMemo, useState } from 'react';\n \n+import Image from 'next/image';\n import { PokemonListItem } from '@/types/pokemon';\n \n interface PokemonSelectorProps {\n   pokemonList: PokemonListItem[];\n@@ -54,9 +55,9 @@\n                   key={pokemon.name}\n                   className=\"flex items-center p-3 border-b hover:bg-gray-50 cursor-pointer\"\n                   onClick={() => !disabled && onSelect(pokemon)}\n                 >\n-                  <img \n+                  <Image \n                     src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`}\n                     alt={pokemon.name}\n                     className=\"w-12 h-12 mr-4\"\n                   />\n"
+                },
+                {
+                    "date": 1743562749144,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -58,8 +58,10 @@\n                 >\n                   <Image \n                     src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`}\n                     alt={pokemon.name}\n+                    width={48}\n+                    height={48}\n                     className=\"w-12 h-12 mr-4\"\n                   />\n                   <div>\n                     <p className=\"text-gray-500 text-sm\">#{id}</p>\n"
                 }
             ],
             "date": 1743561818059,

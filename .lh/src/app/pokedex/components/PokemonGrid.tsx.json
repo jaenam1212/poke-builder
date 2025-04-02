@@ -3,11 +3,19 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1743561865338,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1743562698430,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,11 +1,11 @@\n // app/pokedex/components/PokemonGrid.tsx\n 'use client';\n \n+import Image from 'next/image';\n import Link from 'next/link';\n import { PokemonListItem } from '@/types/pokemon';\n import { useState } from 'react';\n-\n interface PokemonGridProps {\n   pokemonList: PokemonListItem[];\n }\n \n@@ -50,9 +50,9 @@\n               key={pokemon.name}\n               className=\"bg-white p-4 rounded shadow hover:shadow-lg transition-shadow\"\n             >\n               <div className=\"flex flex-col items-center\">\n-                <img \n+                <Image \n                   src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}\n                   alt={pokemon.name}\n                   className=\"w-32 h-32 object-contain\"\n                 />\n"
+                },
+                {
+                    "date": 1743562773466,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -53,8 +53,10 @@\n               <div className=\"flex flex-col items-center\">\n                 <Image \n                   src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}\n                   alt={pokemon.name}\n+                  width={128}\n+                  height={128}\n                   className=\"w-32 h-32 object-contain\"\n                 />\n                 <div className=\"mt-2 text-center\">\n                   <p className=\"font-bold\">#{id}</p>\n"
                 }
             ],
             "date": 1743561865338,

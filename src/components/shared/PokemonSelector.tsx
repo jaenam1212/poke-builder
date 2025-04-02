@@ -3,6 +3,7 @@
 
 import { useMemo, useState } from 'react';
 
+import Image from 'next/image';
 import { PokemonListItem } from '@/types/pokemon';
 
 interface PokemonSelectorProps {
@@ -55,9 +56,11 @@ export default function PokemonSelector({
                   className="flex items-center p-3 border-b hover:bg-gray-50 cursor-pointer"
                   onClick={() => !disabled && onSelect(pokemon)}
                 >
-                  <img 
+                  <Image 
                     src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`}
                     alt={pokemon.name}
+                    width={48}
+                    height={48}
                     className="w-12 h-12 mr-4"
                   />
                   <div>

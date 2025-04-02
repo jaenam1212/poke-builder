@@ -1,10 +1,10 @@
 // app/pokedex/components/PokemonGrid.tsx
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { PokemonListItem } from '@/types/pokemon';
 import { useState } from 'react';
-
 interface PokemonGridProps {
   pokemonList: PokemonListItem[];
 }
@@ -51,9 +51,11 @@ export default function PokemonGrid({ pokemonList }: PokemonGridProps) {
               className="bg-white p-4 rounded shadow hover:shadow-lg transition-shadow"
             >
               <div className="flex flex-col items-center">
-                <img 
+                <Image 
                   src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}
                   alt={pokemon.name}
+                  width={128}
+                  height={128}
                   className="w-32 h-32 object-contain"
                 />
                 <div className="mt-2 text-center">

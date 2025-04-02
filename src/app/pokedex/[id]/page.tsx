@@ -1,8 +1,9 @@
+import Image from 'next/image';
 import Link from 'next/link';
+import { Pokemon } from '@/types/pokemon';
 import PokemonStats from '@/components/shared/PokemonStats';
 import PokemonTypeChips from '@/components/shared/PokemonTypeChips';
-import { getPokemonDetails } from '@/services/api/pokemon-api';
-// app/pokedex/[id]/page.tsx
+import { getPokemonDetails } from '@/lib/pokemon-api';
 
 export default async function PokemonDetailPage({ params }: { params: { id: string } }) {
   const pokemon = await getPokemonDetails(params.id);
@@ -18,9 +19,11 @@ export default async function PokemonDetailPage({ params }: { params: { id: stri
       <div className="bg-white rounded-lg shadow-lg overflow-hidden">
         <div className="p-6 md:p-8 flex flex-col md:flex-row">
           <div className="flex-shrink-0 flex justify-center md:w-1/3">
-            <img
+            <Image
               src={pokemon.sprites.other['official-artwork'].front_default}
               alt={pokemon.name}
+              width={256}
+              height={256}
               className="w-64 h-64 object-contain"
             />
           </div>
@@ -43,7 +46,7 @@ export default async function PokemonDetailPage({ params }: { params: { id: stri
             <div className="mt-6">
               <h2 className="text-lg font-semibold mb-2">특성</h2>
               <div className="flex flex-wrap gap-2">
-                {pokemon.abilities.map((ability) => (
+                {pokemon.abilities.map((ability: Pokemon['abilities'][0]) => (
                   <span 
                     key={ability.ability.name}
                     className="px-3 py-1 bg-gray-200 rounded-full text-sm capitalize"
